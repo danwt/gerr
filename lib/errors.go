@@ -1,4 +1,4 @@
-package lib
+package gerr
 
 import "errors"
 

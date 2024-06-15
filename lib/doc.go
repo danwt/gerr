@@ -12,4 +12,4 @@
 //
 // Note: this package can be extended to automatically return the correct GRPC/HTTP codes too, if needed.
 // Note: this package could be lifted out and shared across more dymension code, to help us standardise.
-package lib
+package gerr
