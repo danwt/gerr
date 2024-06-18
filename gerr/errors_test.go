@@ -9,5 +9,7 @@ import (
 
 func TestFoo(t *testing.T) {
 	errA := status.Error(codes.Unauthenticated, "")
-	errB := status.FromProto()
+	errB := status.FromProto(nil)
+	_ = errA
+	_ = errB
 }

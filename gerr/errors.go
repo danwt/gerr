@@ -72,7 +72,7 @@ func toHttp(code codes.Code) int {
 // ErrCancelled : The operation was cancelled, typically by the caller.
 //
 // HTTP Mapping: 499 Client Closed Request
-var ErrCancelled = Error{Status: status.New(codes.Canceled, "cancelled"
+var ErrCancelled = Error{Status: status.New(codes.Canceled, "cancelled")}
 
 // ErrUnknown : Unknown error.  For example, this error may be returned when
 // a `Status` value received from another address space belongs to
