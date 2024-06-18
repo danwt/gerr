@@ -17,12 +17,16 @@ type Error struct {
 	*status.Status
 }
 
-func (e *Error) Error() string {
+func (e Error) Error() string {
 	return ""
 }
 
 func (e *Error) Http() int {
 	return toHttp(e.Code())
+}
+
+func (e *Error) GrpcCode() codes.Code {
+	return e.Code()
 }
 
 func toHttp(code codes.Code) int {
@@ -68,7 +72,7 @@ func toHttp(code codes.Code) int {
 // ErrCancelled : The operation was cancelled, typically by the caller.
 //
 // HTTP Mapping: 499 Client Closed Request
-var ErrCancelled = Error{Status: status.New(codes.Canceled, "cancelled")}
+var ErrCancelled = Error{Status: status.New(codes.Canceled, "cancelled"
 
 // ErrUnknown : Unknown error.  For example, this error may be returned when
 // a `Status` value received from another address space belongs to
@@ -77,7 +81,7 @@ var ErrCancelled = Error{Status: status.New(codes.Canceled, "cancelled")}
 // may be converted to this error.
 //
 // HTTP Mapping: 500 Internal Server Error
-var ErrUnknown = Error{Status: status.New(codes.Unknown, "unknown")} // UNKNOWN
+var ErrUnknown = Error{Status: status.New(codes.Unknown, "unknown")}
 
 // ErrInvalidArgument : The client specified an invalid argument.  Note that this differs
 // from `FAILED_PRECONDITION`.  `INVALID_ARGUMENT` indicates arguments
@@ -85,7 +89,7 @@ var ErrUnknown = Error{Status: status.New(codes.Unknown, "unknown")} // UNKNOWN
 // (e.g., a malformed file name).
 //
 // HTTP Mapping: 400 Bad Request
-var ErrInvalidArgument = Error{Status: status.New(codes.InvalidArgument, "invalid argument")} // INVALID_ARGUMENT
+var ErrInvalidArgument = Error{Status: status.New(codes.InvalidArgument, "invalid argument")}
 
 // ErrDeadlineExceeded : The deadline expired before the operation could complete. For operations
 // that change the state of the system, this error may be returned
@@ -94,7 +98,7 @@ var ErrInvalidArgument = Error{Status: status.New(codes.InvalidArgument, "invali
 // enough for the deadline to expire.
 //
 // HTTP Mapping: 504 Gateway Timeout
-var ErrDeadlineExceeded = Error{Status: status.New(codes.DeadlineExceeded, "deadline exceeded")} // DEADLINE_EXCEEDED
+var ErrDeadlineExceeded = Error{Status: status.New(codes.DeadlineExceeded, "deadline exceeded")}
 
 // ErrNotFound : Some requested entity (e.g., file or directory) was not found.
 //
@@ -105,13 +109,13 @@ var ErrDeadlineExceeded = Error{Status: status.New(codes.DeadlineExceeded, "dead
 // must be used.
 //
 // HTTP Mapping: 404 Not Found
-var ErrNotFound = Error{Status: status.New(codes.NotFound, "not found")} // NOT_FOUND
+var ErrNotFound = Error{Status: status.New(codes.NotFound, "not found")}
 
 // ErrAlreadyExist : The entity that a client attempted to create (e.g., file or directory)
 // already exists.
 //
 // HTTP Mapping: 409 Conflict
-var ErrAlreadyExist = Error{Status: status.New(codes.AlreadyExists, "already exist")} // ALREADY_EXIST
+var ErrAlreadyExist = Error{Status: status.New(codes.AlreadyExists, "already exist")}
 
 // ErrPermissionDenied : The caller does not have permission to execute the specified
 // operation. `PERMISSION_DENIED` must not be used for rejections
@@ -123,19 +127,19 @@ var ErrAlreadyExist = Error{Status: status.New(codes.AlreadyExists, "already exi
 // other pre-conditions.
 //
 // HTTP Mapping: 403 Forbidden
-var ErrPermissionDenied = Error{Status: status.New(codes.PermissionDenied, "permission denied")} // PERMISSION_DENIED
+var ErrPermissionDenied = Error{Status: status.New(codes.PermissionDenied, "permission denied")}
 
 // ErrUnauthenticated : The request does not have valid authentication credentials for the
 // operation.
 //
 // HTTP Mapping: 401 Unauthorized
-var ErrUnauthenticated = Error{Status: status.New(codes.Unauthenticated, "unauthenticated")} // UNAUTHENTICATED
+var ErrUnauthenticated = Error{Status: status.New(codes.Unauthenticated, "unauthenticated")}
 
 // ErrResourceExhausted : Some resource has been exhausted, perhaps a per-user quota, or
 // perhaps the entire file system is out of space.
 //
 // HTTP Mapping: 429 Too Many Requests
-var ErrResourceExhausted = Error{Status: status.New(codes.ResourceExhausted, "resource exhausted")} // RESOURCE_EXHAUSTED
+var ErrResourceExhausted = Error{Status: status.New(codes.ResourceExhausted, "resource exhausted")}
 
 // ErrFailedPrecondition : The operation was rejected because the system is not in a state
 // required for the operation's execution.  For example, the directory
@@ -156,7 +160,7 @@ var ErrResourceExhausted = Error{Status: status.New(codes.ResourceExhausted, "re
 //	    the files are deleted from the directory.
 //
 // HTTP Mapping: 400 Bad Request
-var ErrFailedPrecondition = Error{Status: status.New(codes.FailedPrecondition, "unmet precondition")} // FAILED_PRECONDITION
+var ErrFailedPrecondition = Error{Status: status.New(codes.FailedPrecondition, "unmet precondition")}
 
 // ErrAborted : The operation was aborted, typically due to a concurrency issue such as
 // a sequencer check failure or transaction abort.
@@ -165,7 +169,7 @@ var ErrFailedPrecondition = Error{Status: status.New(codes.FailedPrecondition, "
 // `ABORTED`, and `UNAVAILABLE`.
 //
 // HTTP Mapping: 409 Conflict
-var ErrAborted = Error{Status: status.New(codes.Aborted, "aborted")} // ABORTED
+var ErrAborted = Error{Status: status.New(codes.Aborted, "aborted")}
 
 // ErrOutOfRange : The operation was attempted past the valid range.  E.g., seeking or
 // reading past end-of-file.
@@ -184,20 +188,20 @@ var ErrAborted = Error{Status: status.New(codes.Aborted, "aborted")} // ABORTED
 // they are done.
 //
 // HTTP Mapping: 400 Bad Request
-var ErrOutOfRange = Error{Status: status.New(codes.OutOfRange, "out of range")} // OUT_OF_RANGE
+var ErrOutOfRange = Error{Status: status.New(codes.OutOfRange, "out of range")}
 
 // ErrUnimplemented : The operation is not implemented or is not supported/enabled in this
 // service.
 //
 // HTTP Mapping: 501 Not Implemented
-var ErrUnimplemented = Error{Status: status.New(codes.Unimplemented, "unimplemented")} // UNIMPLEMENTED
+var ErrUnimplemented = Error{Status: status.New(codes.Unimplemented, "unimplemented")}
 
 // ErrInternal : Internal errors.  This means that some invariants expected by the
 // underlying system have been broken.  This error code is reserved
 // for serious errors.
 //
 // HTTP Mapping: 500 Internal Server Error
-var ErrInternal = Error{Status: status.New(codes.Internal, "internal")} // INTERNAL
+var ErrInternal = Error{Status: status.New(codes.Internal, "internal")}
 
 // ErrUnavailable : The service is currently unavailable.  This is most likely a
 // transient condition, which can be corrected by retrying with
@@ -208,9 +212,9 @@ var ErrInternal = Error{Status: status.New(codes.Internal, "internal")} // INTER
 // `ABORTED`, and `UNAVAILABLE`.
 //
 // HTTP Mapping: 503 Service Unavailable
-var ErrUnavailable = Error{Status: status.New(codes.Unavailable, "unavailable")} // UNAVAILABLE
+var ErrUnavailable = Error{Status: status.New(codes.Unavailable, "unavailable")}
 
 // ErrDataLoss : Unrecoverable data loss or corruption.
 //
 // HTTP Mapping: 500 Internal Server Error
-var ErrDataLoss = Error{Status: status.New(codes.DataLoss, "data loss")} // DATA_LOSS
+var ErrDataLoss = Error{Status: status.New(codes.DataLoss, "data loss")}
