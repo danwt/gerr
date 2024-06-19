@@ -18,13 +18,14 @@ type Error struct {
 }
 
 func (e Error) Error() string {
-	return ""
+	return e.Status.Message()
 }
 
-func (e *Error) Http() int {
+func (e *Error) HttpCode() int {
 	return toHttp(e.Code())
 }
 
+// GrpcCode returns the grpc code. Named differently to help differentiate with http code.
 func (e *Error) GrpcCode() codes.Code {
 	return e.Code()
 }
