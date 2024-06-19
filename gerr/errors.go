@@ -17,17 +17,25 @@ type Error struct {
 	*status.Status
 }
 
+// Error returns a business logic friendly error. This is NOT the same as what
+// you get from calling e.Status.Err().Error() because it does not include
+// a reference to 'rpc'.
 func (e Error) Error() string {
 	return e.Status.Message()
 }
 
-func (e *Error) HttpCode() int {
+func (e Error) HttpCode() int {
 	return toHttp(e.Code())
 }
 
 // GrpcCode returns the grpc code. Named differently to help differentiate with http code.
-func (e *Error) GrpcCode() codes.Code {
+func (e Error) GrpcCode() codes.Code {
 	return e.Code()
+}
+
+// GRPCStatus returns the Status represented by se.
+func (e Error) GRPCStatus() *status.Status {
+	return e.Status
 }
 
 func toHttp(code codes.Code) int {
