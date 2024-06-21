@@ -120,11 +120,11 @@ var ErrDeadlineExceeded = Error{Status: status.New(codes.DeadlineExceeded, "dead
 // HTTP Mapping: 404 Not Found
 var ErrNotFound = Error{Status: status.New(codes.NotFound, "not found")}
 
-// ErrAlreadyExist : The entity that a client attempted to create (e.g., file or directory)
+// ErrAlreadyExists : The entity that a client attempted to create (e.g., file or directory)
 // already exists.
 //
 // HTTP Mapping: 409 Conflict
-var ErrAlreadyExist = Error{Status: status.New(codes.AlreadyExists, "already exist")}
+var ErrAlreadyExists = Error{Status: status.New(codes.AlreadyExists, "already exists")}
 
 // ErrPermissionDenied : The caller does not have permission to execute the specified
 // operation. `PERMISSION_DENIED` must not be used for rejections
